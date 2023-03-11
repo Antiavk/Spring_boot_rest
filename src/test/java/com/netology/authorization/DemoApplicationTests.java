@@ -41,6 +41,7 @@ public class DemoApplicationTests {
                 + devapp.getMappedPort(8080) + ENDPOINT, String.class);
         System.out.println(devResponse.getBody());
         Assertions.assertEquals(expected, devResponse.getBody());
+
     }
 
     @Test

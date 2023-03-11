@@ -1,6 +1,8 @@
 package com.netology.authorization.config;
 
 import com.netology.authorization.entity.User;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -36,6 +38,19 @@ public class ApplicationWebMvcConfig implements WebMvcConfigurer {
             String password = webRequest.getParameter("password");
             return new User(name, password);
         }
+    }
+
+    @Bean
+    @ConditionalOnProperty(value = "netology.profile.dev", matchIfMissing = true,
+            havingValue = "true")
+    public com.netology.authorization.profiles.SystemProfile devProfile() {
+        return new com.netology.authorization.profiles.DevProfile();
+    }
+
+    @Bean
+    @ConditionalOnProperty(value = "netology.profile.dev", havingValue = "false")
+    public com.netology.authorization.profiles.SystemProfile prodProfile() {
+        return new com.netology.authorization.profiles.ProductionProfile();
     }
 
 }
